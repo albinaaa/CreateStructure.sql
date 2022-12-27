@@ -1,1 +1,38 @@
+IF OBJECT_ID('dbo.SKU', 'U') IS NOT NULL
+DROP TABLE dbo.SKU;
 
+create table dbo.SKU
+(
+  ID int identity(1,1) PRIMARY KEY,
+  Code AS 's'+convert(varchar(50), ID) unique,
+  Name varchar(100)
+);
+
+GO;
+
+IF OBJECT_ID('dbo.Basket', 'U') IS NOT NULL
+DROP TABLE dbo.Basket;
+
+create table dbo.Basket
+(
+  ID int identity(1,1) NOT NULL,
+  ID_SKU int FOREIGN KEY REFERENCES dbo.SKU(ID) NOT NULL,
+  Quantity int check (Quantity>=0),
+  Value int check (Value>=0),
+  PurchaseDate datetime DEFAULT GETDATE(),
+  DiscountValue int
+);
+
+GO;
+
+IF OBJECT_ID('dbo.Family', 'U') IS NOT NULL
+DROP TABLE dbo.Family;
+
+create table dbo.Family
+(
+  ID int identity(1,1) not null,
+  FamilySurName varchar(100),
+  BudgetValue float
+);
+
+GO;
